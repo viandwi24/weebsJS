@@ -2,7 +2,7 @@
 A simple lightweight game engine with (Entity - Component - System) ECS Pattern
 
 ## Deno
-![Preview](https://github.com/viandwi24/weebsJS/blob/main/images/preview.png?raw=true)
+![Preview](https://github.com/viandwi24/weebsJS/blob/main/images/preview.gif?raw=true)
 https://viandwi24.github.io/weebsJS
 
 ## Overview
