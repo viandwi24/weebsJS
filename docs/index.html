@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO GAME ENGINE</title>
+
+    <!-- style -->
+    <style>
+        body {
+            background-color: #000;
+        }
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen"></div>
+
+    <!-- game engine - required -->
+    <script src="./../src/Component.js"></script>
+    <script src="./../src/Entity.js"></script>
+    <script src="./../src/Scene.js"></script>
+    <script src="./../src/System.js"></script>
+    <script src="./../src/Game.js"></script>
+    <!-- game engine - basic system -->
+    <script src="./../src/lib/Systems/Fps.js"></script>
+    <!-- game engine - basic lib -->
+    <script src="./../src/lib/Vector2.js"></script>
+    <!-- scripts -->
+    <script src="./js/Systems/ShapeDraw.js"></script>
+    <script src="./js/Components/Transform.js"></script>
+    <script src="./js/Components/Rectagle.js"></script>
+    <script src="./js/Entities/Player.js"></script>
+    <script src="./js/Entities/Enemy.js"></script>
+    <script src="./js/Scenes/MainScene.js"></script>
+    <!-- game -->
+    <script src="./js/game.js"></script>
+</body>
+</html>
