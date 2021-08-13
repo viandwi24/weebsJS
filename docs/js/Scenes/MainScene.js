@@ -15,12 +15,6 @@ class MainScene extends Scene {
     entityManager.add(player)
     player.addComponent(new Transform)
     player.addComponent(new Rectangle)
-    player.getComponent('Transform').setState('position', new Vector2(10, 20))
-    player.getComponent('Rectangle').setState({
-      color: 'yellow',
-      width: 100,
-      height: 100,
-    })
 
 
     // add enemy on scene
@@ -28,12 +22,6 @@ class MainScene extends Scene {
     entityManager.add(enemy)
     enemy.addComponent(new Transform)
     enemy.addComponent(new Rectangle)
-    enemy.getComponent('Transform').setState('position', new Vector2(10, 20))
-    enemy.getComponent('Rectangle').setState({
-      color: 'red',
-      width: 100,
-      height: 100,
-    })
 
     // log
     console.log('scene create')
