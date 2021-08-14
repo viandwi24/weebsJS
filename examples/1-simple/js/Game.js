@@ -5,13 +5,25 @@ document.addEventListener('DOMContentLoaded', main)
 let game
 function main () {
   // create game instance
-  game = new Weebs.Game2D()
+  game = new Weebs.Game2D({ resolution: { width: 1900, height: 950 } })
 
   // mount game canvas to DOM
   game.mount(document.querySelector('#screen'))
 
+  // this is a basic simple system built-in can you use
+  const basicSystems = [
+    // for render shape
+    Weebs.Engine2D.System.ShapeRender,
+
+    // for show fps
+    Weebs.Engine2D.System.SimpleFpsUI,
+  ]
+
+  // your systems
+  const customSystems = []
+
   // register system
-  game.registerSystem([ ShapeRender, Fps ])
+  game.registerSystem([ ...basicSystems, ...customSystems ])
 
   // register scenes
   game.registerScene([ MainScene ])
@@ -20,5 +32,5 @@ function main () {
   game.start(MainScene)
 
   // log
-  // console.log(game)
+  // console.log(Weebs.Engine2D.System.ShapeRender)
 }

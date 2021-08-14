@@ -21,7 +21,7 @@ export interface IGame2DContext {
     screen: IGame2DScreen;
     canvas: HTMLCanvasElement;
     time: IGame2DTime;
-    scene: Scene | undefined;
+    scene: Scene;
 }
 export declare const Game2DDefaultOptions: IGame2DOptions;
 /**
@@ -58,7 +58,7 @@ export declare class Game2D {
      * SceneManager
      * @type {IGame2DScreen}
      */
-    protected activeScene: Scene | undefined;
+    protected activeScene: Scene;
     /**
      * Time
      * @type {IGame2DTime}
@@ -96,7 +96,7 @@ export declare class Game2D {
     /**
      * Get Content
      */
-    protected getContext(): IGame2DContext;
+    getContext(): IGame2DContext;
     /**
      * Start game
      * @param  {Scene} scene

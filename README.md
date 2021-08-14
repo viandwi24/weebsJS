@@ -1,5 +1,5 @@
 # WeebsJS
-A simple lightweight game engine with (Entity - Component - System) ECS Pattern
+A simple lightweight game engine with ECS (Entity - Component - System) Pattern
 
 ## Deno
 ![Preview](https://github.com/viandwi24/weebsJS/blob/main/images/preview.gif?raw=true)
@@ -14,151 +14,119 @@ const game = new Game2D(gameOptions)
 // mount to screen
 game.mount(document.querySelector('#screen'))
 
-// scene
-game.addScene([ MainScene ])
+// register system
+game.registerSystem([ Weebs.Engine2D.System.ShapeRender, Weebs.Engine2D.System.SimpleFpsUI ])
+
+// register scenes
+game.registerScene([ MainScene ])
 
 //  start
 game.start(MainScene)
 ```
 
-### Create Scene
+### Scene 
 ```
-class MainScene extends Scene {
+class MainScene extends Weebs.Scene {
   /**
-   * Before scene load.
+   * On Scene Preload
    */
   preload () {
+    // 
   }
-  
+
   /**
-   * On scene creating
+   * On Scene Create
    */
   create () {
+    const player = new Box
+
+    // entity use rectangle shape
+    player.addComponent(new Weebs.Engine2D.Component.Rectangle)
+    // player.addComponent(new Circle)
+
+    // entity use transform, so entity can move, scale, and rotate
+    player.addComponent(new Weebs.Engine2D.Component.Transform)
+
+    // add
+    this.addEntity(player, name)
   }
 
-
   /**
-   * On Scene start.
+   * On Scene Start
    */
   start () {
-    // create entity with component
-    const player = new Player
-    player.addComponent(new Transform)
-
-    // add player entity on scene
-    this.entityManager.add(player)
   }
-  
+
   /**
-   * On Scene update.
+   * On Scene Update
    */
-  update () {
+   update () {
   }
 }
 ```
 
-### Create Entity
+### Entity
 ```
-class Player extends Entity {  
+class Box extends Weebs.Entity {
+  transform = undefined
+  velocity = {
+    x: 1,
+    y: 1
+  }
+
   /**
-   * On entitiy creating
+   * On Entity Create
    */
   create () {
     this.transform = this.getComponent('Transform')
-    this.shape = this.getComponent('Rectangle')
+    this.transform.position.x = Math.random() * 400
+    this.transform.position.y = Math.random() * 400
+    // this.transform.scale.x = Math.floor(Math.random() * (100 - 25 + 1) + 25)
+    // this.transform.scale.y = Math.floor(Math.random() * (100 - 25 + 1) + 25)
+    this.velocity.x = Math.random() < 0.5 ? -1 : 1
+    this.velocity.y = Math.random() < 0.5 ? -1 : 1
+
+    // 
+    // console.log('Entity create')
   }
-  
+
   /**
-   * On entitiy start
+   * On Entity Start
    */
   start () {
-    // set position
-    this.transform.setState('position', new Vector2(10, 20))
-
-    // set rectangle
-    this.shape.setState({
-      color: 'yellow',
-      width: 100,
-      height: 100,
-    })
+    // 
+    // console.log('Entity start')
   }
-  
-  /**
-   * On entitiy update
-   */
-  update () {
-    this.transform.position.x += 2
-  }
-}
-```
-
-### Create Component
-```
-class Rectangle extends Component {
-  width = 0
-  height = 0
-  color = 'white'
 
   /**
-   * On component creating
+   * On Entity Update
    */
-  create () {
-  }
-  
-  /**
-   * On component start
-   */
-  start () {
-  }
-  
-  /**
-   * On component update
-   */
-  update () {
-  }
-}
-class Transform extends Component {
-  position = new Vector2(0, 0)
-  
-  /**
-   * On component creating
-   */
-  create () {
-  }
-  
-  /**
-   * On component start
-   */
-  start () {
-  }
-  
-  /**
-   * On component update
-   */
-  update () {
-  }
-}
-```
+  update ({ game }) {
+    // const { x, y } = this.transform.position
 
+    // if (x > 200 || x < 0) this.velocity.x = -(this.velocity.x)
+    // if (y > 200 || y < 0) this.velocity.y = -(this.velocity.y) 
+    this.mirrorWhenCollide(this.transform.position, this.transform.scale)
+    this.boxMove()
+  }
 
-### Create System For Rendering
-```
-class ShapeDraw extends System {
-  execute ({ canvas, time }) {
-    const context = canvas.getContext('2d')
-
-    // get entities has shape component
-    const allEntityHasShape = this.entityManager.getEntityHasComponent(['Rectangle', 'Transform'])
-    for (let i = 0; i < allEntityHasShape.length; i++) {
-      const entity = allEntityHasShape[i];
-      const rectangleState = entity.getComponent('Rectangle').getState()
-      const position = entity.getComponent('Transform').getState('position')
-
-      // draw to canvas
-      context.beginPath()
-      context.fillStyle = rectangleState.color
-      context.fillRect(position.x, position.y, rectangleState.width, rectangleState.height)
+  mirrorWhenCollide (position, scale) {
+    const gameSize = {
+      width: game.options.resolution.width - scale.x,
+      height: game.options.resolution.height - scale.y
     }
+
+    if (position.x >= gameSize.width || position.x <= 0) {
+      this.velocity.x *= -1
+    }
+    if (position.y >= gameSize.height || position.y <= 0) {
+      this.velocity.y *= -1
+    }
+  }
+
+  boxMove () {
+    this.transform.position.x += this.velocity.x
+    this.transform.position.y += this.velocity.y
   }
 }
 ```

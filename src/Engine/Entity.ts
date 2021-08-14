@@ -1,4 +1,4 @@
-import { ComponentManager, Component } from "../index"
+import { ComponentManager, Component, Game2D } from "../index"
 import { IGame2DContext } from "./Game2D"
 
 /**
@@ -9,7 +9,10 @@ export class EntityManager {
     /**
      * Entity List
      */
-    protected entities: Array<Entity> = []
+    public entities: Array<Entity> = []
+
+    constructor (public game: Game2D) {
+    }
 
     /**
      * Add a new entity
@@ -18,9 +21,11 @@ export class EntityManager {
      */
     public add(entity: Entity, id: string | undefined) {
         this.entities.push(entity)
+        entity.create(this.game.getContext())
         if (id) {
             entity.setId(id)
         }
+        entity.start(this.game.getContext())
     }
 
     /**
@@ -33,12 +38,25 @@ export class EntityManager {
     }
 
     /**
+     * Get a entity by id
+     * @param  {String} id
+     * @returns {Entity|undefined}
+     */
+    public destroy(id: string|Entity) {
+        const entityId = (typeof id === 'string') ? id : id.getId()
+        const findIndex = this.entities.findIndex(entity => entity.getId() === entityId)
+        this.entities.splice(findIndex, 1)
+        return findIndex
+    }
+
+    /**
      * Run lifecycle
      * @param  {string} entityId
      * @param  {string} method
      * @param  {object} context
      */
     public runLifeCycle(method: string, context: IGame2DContext) {
+        // console.log(this.entities.length)
         for (let i = 0; i < this.entities.length; i++) {
             const entity = this.entities[i]
             if (entity) {
@@ -54,12 +72,12 @@ export class EntityManager {
 
                 // component
                 for (let j = 0; j < entity.componentManager.components.length; j++) {
-                    const component = entity.componentManager.components[i]
+                    const component: Component = entity.componentManager.components[j]
                     if (component) {
                         try {
-                            if (typeof component.create === 'function' && method === 'create') component.create(context)
-                            if (typeof component.start === 'function' && method === 'start') component.start(context)
-                            if (typeof component.update === 'function' && method === 'update') component.update(context)
+                            if (typeof component.create === 'function' && method === 'create') component.create(context, entity)
+                            if (typeof component.start === 'function' && method === 'start') component.start(context, entity)
+                            if (typeof component.update === 'function' && method === 'update') component.update(context, entity)
                         } catch (error) {
                             console.warn(`Error on ${method} component`, component)
                             console.error(error)
@@ -137,6 +155,13 @@ export class Entity {
      */
     addComponent(component: Component, id: string | undefined) {
         return this.componentManager.add(component, id)
+    }
+  
+    /**
+     * Destroy
+     */
+    destoyEntity () {
+        console.log('destroyed')
     }
 
     /**

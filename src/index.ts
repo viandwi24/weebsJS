@@ -1,4 +1,4 @@
-import { Game2D, IGame2DContext } from './GameEngine2D'
+import { Game2D, IGame2DContext, Engine2D } from './GameEngine2D'
 import { SceneManager, Scene } from './Engine/Scene'
 import { EntityManager, Entity } from './Engine/Entity'
 import { ComponentManager, Component } from './Engine/Component'
@@ -20,5 +20,7 @@ export {
 
     System,
 
-    Vector2
+    Vector2,
+
+    Engine2D
 }

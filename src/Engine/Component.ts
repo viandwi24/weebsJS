@@ -1,3 +1,4 @@
+import { Entity } from "./Entity"
 import { IGame2DContext } from "./Game2D"
 
 /**
@@ -67,17 +68,35 @@ export class Component {
     }
 
     /**
+     * Get state 
+     * <T, K extends keyof T>
+     * @returns {Object
+     */
+    getState(): { [key: string]: any } {
+        const states: { [key: string]: any } = {}
+        const a = Object.getOwnPropertyNames(this)
+        const $this: { [key: string]: any } = this
+        for (let i = 0; i < a.length; i++) {
+          const b: any = a[i];
+          if (b) {
+            states[b] = $this[b]
+          }
+        }
+        return states
+    }
+
+    /**
      * create
      */
-    create(context: IGame2DContext) { }
+    create(context: IGame2DContext, entity: Entity) { }
 
     /**
      * Start
      */
-    start(context: IGame2DContext) { }
+    start(context: IGame2DContext, entity: Entity) { }
 
     /**
      * Update
      */
-    update(context: IGame2DContext) { }
+    update(context: IGame2DContext, entity: Entity) { }
 }

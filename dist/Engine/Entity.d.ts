@@ -1,14 +1,16 @@
-import { ComponentManager, Component } from "../index";
+import { ComponentManager, Component, Game2D } from "../index";
 import { IGame2DContext } from "./Game2D";
 /**
  * Create Entity Manager
  * @class EntityManager
  */
 export declare class EntityManager {
+    game: Game2D;
     /**
      * Entity List
      */
-    protected entities: Array<Entity>;
+    entities: Array<Entity>;
+    constructor(game: Game2D);
     /**
      * Add a new entity
      * @param  {Entity} entity
@@ -21,6 +23,12 @@ export declare class EntityManager {
      * @returns {Entity|undefined}
      */
     get(id: string): Entity | undefined;
+    /**
+     * Get a entity by id
+     * @param  {String} id
+     * @returns {Entity|undefined}
+     */
+    destroy(id: string | Entity): number;
     /**
      * Run lifecycle
      * @param  {string} entityId
@@ -66,6 +74,10 @@ export declare class Entity {
      * @param  {String} id
      */
     addComponent(component: Component, id: string | undefined): void;
+    /**
+     * Destroy
+     */
+    destoyEntity(): void;
     /**
      * Get component
      * @param  {String} id

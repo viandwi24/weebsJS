@@ -1,3 +1,4 @@
+import { Entity } from "./Entity";
 import { IGame2DContext } from "./Game2D";
 /**
  * Create Component Manager
@@ -45,15 +46,23 @@ export declare class Component {
      */
     getId(): string;
     /**
+     * Get state
+     * <T, K extends keyof T>
+     * @returns {Object
+     */
+    getState(): {
+        [key: string]: any;
+    };
+    /**
      * create
      */
-    create(context: IGame2DContext): void;
+    create(context: IGame2DContext, entity: Entity): void;
     /**
      * Start
      */
-    start(context: IGame2DContext): void;
+    start(context: IGame2DContext, entity: Entity): void;
     /**
      * Update
      */
-    update(context: IGame2DContext): void;
+    update(context: IGame2DContext, entity: Entity): void;
 }

@@ -16,7 +16,7 @@ class MainScene extends Weebs.Scene {
    */
   create () {
     // add player to scene
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 100; i++) {
       this.addPlayer('Box_' + i)
     }
   }
@@ -31,8 +31,7 @@ class MainScene extends Weebs.Scene {
   /**
    * On Scene Update
    */
-   update () {
-    // 
+  update () {
   }
   
   /**
@@ -43,11 +42,14 @@ class MainScene extends Weebs.Scene {
     const player = new Box
 
     // entity use rectangle shape
-    // player.addComponent(new Rectangle)
-    player.addComponent(new Circle)
+    player.addComponent(new Weebs.Engine2D.Component.Rectangle)
+    // player.addComponent(new Circle)
 
     // entity use transform, so entity can move, scale, and rotate
-    player.addComponent(new Transform)
+    player.addComponent(new Weebs.Engine2D.Component.Transform)
+
+    // entity have heatlh component
+    player.addComponent(new Health)
 
     // add
     this.addEntity(player, name)

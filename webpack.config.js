@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
   // bundling mode
-  mode: 'production',
+  // mode: 'production',
+  mode: 'development',
   // entry files
   entry: './src/index.ts',
   // output bundles (location)

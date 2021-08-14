@@ -50,13 +50,14 @@ export class Scene {
     /**
      * Entity Manager
      */
-    public entityManager: EntityManager = new EntityManager()
+    public entityManager: EntityManager
     
     /**
      * Create a scene
      */
     constructor (context: IGame2DContext) {
         this.id = this.constructor.name
+        this.entityManager = new EntityManager(context.game)
     }
 
     /**

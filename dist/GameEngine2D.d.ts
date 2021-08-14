@@ -1,2 +1,3 @@
 import { Game2D, IGame2DContext } from './Engine/Game2D';
-export { Game2D, IGame2DContext };
+import * as Engine2D from './Engine/2D/index';
+export { Game2D, IGame2DContext, Engine2D };

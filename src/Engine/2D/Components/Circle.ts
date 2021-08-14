@@ -1,7 +1,9 @@
-class Transform extends Weebs.Component {
-  position = new Weebs.Vector2(0, 0)
-  scale = new Weebs.Vector2(50, 50)
-  
+import { Component } from '../../Component'
+
+export class Circle extends Component {
+  fillColor = 'blue'
+  strokeColor = 'white'
+
   /**
    * On component creating
    */

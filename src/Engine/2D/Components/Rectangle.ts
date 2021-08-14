@@ -1,4 +1,6 @@
-class Circle extends Weebs.Component {
+import { Component } from '../../Component'
+
+export class Rectangle extends Component {
   fillColor = 'blue'
   strokeColor = 'white'
 

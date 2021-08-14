@@ -25,7 +25,7 @@ export interface IGame2DContext {
     screen: IGame2DScreen
     canvas: HTMLCanvasElement
     time: IGame2DTime
-    scene: Scene|undefined
+    scene: Scene
 }
 
 export const Game2DDefaultOptions: IGame2DOptions = {
@@ -76,7 +76,7 @@ export class Game2D {
      * SceneManager
      * @type {IGame2DScreen}
      */
-    protected activeScene: Scene|undefined
+    protected activeScene: Scene
 
     /**
      * Time
@@ -111,6 +111,9 @@ export class Game2D {
 
         // Create canvas
         this.createCanvas()
+
+        // 
+        this.activeScene = new Scene(this.getContext())
     }
     
     /**
@@ -149,7 +152,7 @@ export class Game2D {
      */
     registerSystem (systems: Function|System|any) {
         for (let i = 0; i < systems.length; i++) {
-            const system = systems[i];
+            const system = systems[i]
             this.systems.push(system)
         }
     }
@@ -171,7 +174,7 @@ export class Game2D {
     /**
      * Get Content
      */
-    protected getContext (): IGame2DContext {
+    public getContext (): IGame2DContext {
         return {
             game: this,
             screen: this.screen,
@@ -187,6 +190,7 @@ export class Game2D {
      */
     public start (sceneClass: Function|Scene|any) {
         const scene = this.sceneManager.get(sceneClass)
+        if (!scene) return
         this.activeScene = scene
 
         // create system
@@ -198,7 +202,9 @@ export class Game2D {
         if (scene) {
             // preload scene
             try {
-                if (typeof scene.preload === 'function') scene.preload()
+                if (typeof scene.preload === 'function') {
+                    scene.preload()
+                }
             } catch (error) {
                 console.warn(`Error on preload scene`, scene)
                 console.error(error)
@@ -206,12 +212,13 @@ export class Game2D {
 
             // create scene
             try {
-                if (typeof scene.create === 'function') scene.create()
+                if (typeof scene.create === 'function') {
+                    scene.create()
+                }
             } catch (error) {
                 console.warn(`Error on create scene`, scene)
                 console.error(error)
             }
-            scene.entityManager.runLifeCycle('create', this.getContext())
             
             // start scene
             try {
@@ -220,7 +227,6 @@ export class Game2D {
                 console.warn(`Error on start scene`, scene)
                 console.error(error)
             }
-            scene.entityManager.runLifeCycle('start', this.getContext())
 
             // run game loop
             requestAnimationFrame(this.gameLoop.bind(this))
